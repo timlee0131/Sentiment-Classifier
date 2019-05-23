@@ -228,7 +228,7 @@ String& Sentiment_Classifier::optimize_word(String& word) {
 }*/
 
 bool Sentiment_Classifier::remove_at(string& word) {
-    if(word.get_array()[0] == '@') {
+    if(word[0] == '@') {
         return false;
     }
     return true;
@@ -237,10 +237,10 @@ bool Sentiment_Classifier::remove_href(string& word) {
     //check for www.
     int count = 0;
     for(int i = 0; i < 3; i++) {
-        if(word.get_array()[i] == 'w')
+        if(word[i] == 'w')
             count++;
     }
-    if(word.get_array()[3] == '.')
+    if(word[3] == '.')
         count++;
     if(count == 4)
         return false;
