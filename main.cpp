@@ -1,26 +1,24 @@
-#define CATCH_CONFIG_RUNNER
 #include <iostream>
 #include <vector>
-#include "DSString.h"
-#include "Sentiment_Classifier.h"
-#include "Word.h"
-#include "catch.hpp"
+#include <ctime>
+#include "Test_Classifier.h"
 
 using namespace std;
 
-int runCatchTests(int argc, char* const argv[]) {
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) {
+    clock_t begin = clock();
+    //----------------------------------------------------------------------------
 
-int main(int argc, char* argv[])
-{
-    if(argc == 1) {
-        return runCatchTests(argc, argv);
-    }
+    Test_Classifier Tc;
+    Tc.load_map(argv[1], argv[2]);
+    cout << "Loading map with testing data finished..." << endl;
+    Tc.parse_link(argv[3], argv[4]);
+    cout << "Parsing all four files finished..." << endl;
+    Tc.score_tester();
 
-    Sentiment_Classifier clas;
-    clas.word_parser(argv[1], argv[2]);
-    clas.test_data(argv[3], argv[3], argv[4]);
-
+    //----------------------------------------------------------------------------
+    clock_t end = clock();
+    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    cout << "TIME: " << elapsed_secs << endl;
     return 0;
 }

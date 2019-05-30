@@ -2,59 +2,39 @@
 #define SENTIMENT_CLASSIFIER_H
 
 #include <fstream>
+#include <sstream>
 #include <iostream>
 #include <vector>
 #include <string>
+#include <unordered_map>
+#include <list>
 
-#include "Data_Set.h"
-#include "Word.h"
+#include "stemandstopwords.h"
 using namespace std;
 
 class Sentiment_Classifier {
 private:
-    vector<Data_Set> positive_classifier;
-    vector<Data_Set> negative_classifier;
-    vector<string> word_parser_test;
-    vector<Word> word_vector;
+    unordered_map< string, pair<int, int> > train_map;
+    StemAndStopWords word_adjuster;
 public:
-    void document_parser(char*, char*);
-    void word_parser(char*, char*);
 
-    vector<Data_Set> get_positive_vector();
-    vector<Data_Set> get_negative_vector();
-    vector<string> get_word_parser_test();
-    vector<Word>& get_word();
+    //Parsing and word polishing functions
+    void parse_add(char*, char*);
+    bool is_stopword(string);
+    string& stem_word(string&);
 
-    //more complex classification
-    //functions, training data set
-
-    void clean_non_alphabet(vector<string>&);
-    bool check_start_of_tweet(string&);
-    bool check_alphabet(string&);
-    //bool remove_non_alpha(String&);
-    void indexer(Word w);
-    string& optimize_word(string&);
-    //lowercase
-
-    //get rid of @ words
+    //Functionalities for additional word processing
     bool remove_at(string&);
-  
-    //get rid of all periods, commas, and apostrophes in a word.
-    string& remove_periods(string&);
-
-    //if the first word is not a letter, get rid of the first letter function]
-    string& check_first_letter(string&);
-    //get rid of apostrophes
-    string& remove_nonalpha(string&);
-    //identify negating words.
-    bool identify_negation(string&);
-    //get rid of commas
-
-    //discard hrefs
     bool remove_href(string&);
     bool remove_threewords(string&);
     bool remove_tenwords(string&);
-    void test_data(char*, char*, char*);
+    void remove_punc(string&);
+
+    //Other functionalities
+    unordered_map<string, pair<int,int>> get_map();
+
+    //Testing functions
+    void display_map();
 };
 #endif // SENTIMENT_CLASSIFIER_H
 
